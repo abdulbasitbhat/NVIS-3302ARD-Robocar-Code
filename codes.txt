@@ -1,0 +1,553 @@
+Digital motor either run or stop. Not like analog one
+
+we use external module for connecting motor. Because we need to reverse dir and for that we need to change connection.
+We can also attach 2 motors at same time. For that we have 2 pins connected to pin 5 6 7 8 
+5 and 6 rt motor  5 high 6 low forward
+7 and 8 lt motor  7 low 8 high forward   
+
+analog to digital  1024 bits   10 bytes
+
+
+void setup(){
+  pinMode(A0,INPUT); //Right
+  pinMode(A1,INPUT); //Left
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(7,OUTPUT);
+  pinMode(8,OUTPUT);
+}
+
+void loop(){
+  if(digitalRead(A0)==HIGH and digitalRead(A1)==HIGH){
+    //Move forward
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
+    
+  }
+
+  if(digitalRead(A0)==LOW and digitalRead(A1)==LOW){
+    //STOP
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+  }
+  
+  if(digitalRead(A0)==HIGH and digitalRead(A1)==LOW){
+    //LEFT TURN
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+  }
+
+  if(digitalRead(A0)==LOW and digitalRead(A1)==HIGH){
+    //RIGHT TURN
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
+  }
+
+ /* if(digitalRead(A0)==HIGH and digitalRead(A1)==LOW){
+    //CLOCKWISE TURN   
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,HIGH);
+    digitalWrite(8,LOW); 
+  }
+   if(digitalRead(A0)==HIGH and digitalRead(A1)==LOW){
+    //ANTI-CLOCKWISE TURN   
+    digitalWrite(5,LOW);
+    digitalWrite(6,HIGH);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH); 
+  }*/
+}
+-------------------------------------------
+void setup(){
+  pinMode(A0,INPUT); //Right
+  pinMode(A1,INPUT); //Left
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(7,OUTPUT);
+  pinMode(8,OUTPUT);
+  pinMode(12,INPUT);  //echo
+  pinMode(13,OUTPUT);  //trig
+  Serial.begin(9600);
+  
+}
+
+void loop(){
+  //ultrasonic
+  //initialize 
+  digitalWrite(13,LOW);
+  delayMicroseconds(2);
+  digitalWrite(13,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(13,LOW);
+  long duration;
+  int D_cm;
+  
+  duration=pulseIn(12,HIGH);
+  D_cm=(duration * 0.034) / 2;
+  Serial.println(D_cm);
+  Serial.println(" ");
+  if(D_cm<10){
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+    //delay(1000);
+  }
+  else{
+  
+
+  
+  if(digitalRead(A0)==HIGH and digitalRead(A1)==HIGH){
+    //Move forward
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
+    
+  }
+
+  if(digitalRead(A0)==LOW and digitalRead(A1)==LOW){
+    //STOP
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+  }
+  
+  if(digitalRead(A0)==HIGH and digitalRead(A1)==LOW){
+    //LEFT TURN
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+  }
+
+  if(digitalRead(A0)==LOW and digitalRead(A1)==HIGH){
+    //RIGHT TURN
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
+  }
+  }
+ /*if(digitalRead(A0)==HIGH and digitalRead(A1)==LOW){
+    //CLOCKWISE TURN   
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,HIGH);
+    digitalWrite(8,LOW); 
+  }
+   if(digitalRead(A0)==HIGH and digitalRead(A1)==LOW){
+    //ANTI-CLOCKWISE TURN   
+    digitalWrite(5,LOW);
+    digitalWrite(6,HIGH);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH); 
+  }*/
+}
+--------------------------------------------
+int myInput(int);
+void setup(){
+  pinMode(A0,INPUT); //Right
+  pinMode(A1,INPUT); //Left
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(7,OUTPUT);
+  pinMode(8,OUTPUT);
+  pinMode(12,INPUT);  //echo
+  pinMode(13,OUTPUT);  //trig
+  Serial.begin(9600);
+  
+}
+
+void loop(){
+  //ultrasonic
+  //initialize 
+  myInput();
+  /*digitalWrite(13,LOW);
+  delayMicroseconds(2);
+  digitalWrite(13,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(13,LOW);
+  long duration;
+  int D_cm;
+  
+  duration=pulseIn(12,HIGH);
+  D_cm=(duration * 0.034) / 2;
+  Serial.println(D_cm);
+  Serial.println(" ");
+  if(D_cm<10){
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+    //delay(1000);
+  }
+  else{
+  if(digitalRead(A0)==HIGH and digitalRead(A1)==HIGH){
+    //Move forward
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
+    
+  }
+
+  if(digitalRead(A0)==LOW and digitalRead(A1)==LOW){
+    //STOP
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+  }
+  
+  if(digitalRead(A0)==HIGH and digitalRead(A1)==LOW){
+    //LEFT TURN
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+  }
+
+  if(digitalRead(A0)==LOW and digitalRead(A1)==HIGH){
+    //RIGHT TURN
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
+  }
+  }
+ if(digitalRead(A0)==HIGH and digitalRead(A1)==LOW){
+    //CLOCKWISE TURN   
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,HIGH);
+    digitalWrite(8,LOW); 
+  }
+   if(digitalRead(A0)==HIGH and digitalRead(A1)==LOW){
+    //ANTI-CLOCKWISE TURN   
+    digitalWrite(5,LOW);
+    digitalWrite(6,HIGH);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH); 
+  }*/
+}
+
+int myInput(){
+char a;
+a=Serial.read();
+if(a=='f'){
+ 
+  digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
+    delay(2000);
+}
+else if(a=='x'){
+
+  digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,HIGH);
+    digitalWrite(8,LOW); 
+    delay(1000);
+}
+else if(a=='s'){
+
+  digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+    delay(1000);
+}
+else{
+  digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+    delay(1000);
+}
+
+}
+------------------------------------------
+void myInput();
+void OnItsOwn();
+void setup(){
+  //IR sensors  
+  pinMode(A0,INPUT); //Right
+  pinMode(A1,INPUT); //Left
+  //motors 
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(7,OUTPUT);
+  pinMode(8,OUTPUT);
+  //ultrasonic
+  pinMode(12,INPUT);   //echo
+  pinMode(13,OUTPUT);  //trig
+  Serial.begin(9600);
+  
+}
+
+void loop(){
+  
+  //myInput();
+  OnItsOwn();
+}
+
+void OnItsOwn(){
+  //ultrasonic
+  digitalWrite(13,LOW);
+  delayMicroseconds(2);
+  digitalWrite(13,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(13,LOW);
+  long duration;
+  int D_cm;
+  //initialize 
+  duration=pulseIn(12,HIGH);
+  D_cm=(duration * 0.034) / 2;
+  Serial.println(D_cm);
+  Serial.println(" ");
+  if(D_cm<15){
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+    //delay(1000);
+  }
+
+  else{
+  if(digitalRead(A0)==HIGH and digitalRead(A1)==HIGH){
+    //Move forward
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH); 
+  }
+
+  if(digitalRead(A0)==LOW and digitalRead(A1)==LOW){
+    //STOP
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+  }
+  
+  if(digitalRead(A0)==HIGH and digitalRead(A1)==LOW){
+    //LEFT TURN
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+  }
+
+  if(digitalRead(A0)==LOW and digitalRead(A1)==HIGH){
+    //RIGHT TURN
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
+  }
+  }
+}
+
+void myInput(){
+char a;
+a=Serial.read();
+if(a=='f'){
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
+    delay(2000);
+}
+else if(a=='a'){                       //anti clockwise
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,HIGH);
+    digitalWrite(8,LOW); 
+    delay(1000);
+}
+else if(a=='c'){                       //clockwise
+    digitalWrite(5,LOW);
+    digitalWrite(6,HIGH);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH); 
+    delay(1000);
+}
+else if(a=='s'){
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+    delay(1000);
+}
+else{
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+    delay(1000);
+}
+
+}
+--------------------------------------------------
+void myInput();
+void OnItsOwn();
+void receive();
+void setup(){
+  //IR sensors  
+  pinMode(A0,INPUT); //Right
+  pinMode(A1,INPUT); //Left
+  pinMode(4,INPUT);  //receiver
+  //motors 
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(7,OUTPUT);
+  pinMode(8,OUTPUT);
+  //ultrasonic
+  pinMode(12,INPUT);   //echo
+  pinMode(13,OUTPUT);  //trig
+  Serial.begin(9600);
+  
+}
+
+void loop(){
+  
+  //myInput();
+  OnItsOwn();
+  receive();
+}
+
+void OnItsOwn(){
+  //ultrasonic
+  digitalWrite(13,LOW);
+  delayMicroseconds(2);
+  digitalWrite(13,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(13,LOW);
+  long duration;
+  int D_cm;
+  //initialize 
+  duration=pulseIn(12,HIGH);
+  D_cm=(duration * 0.034) / 2;
+  Serial.println(D_cm);
+  Serial.println(" ");
+  if(D_cm<15){
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+    //delay(1000);
+  }
+
+  else{
+  if(digitalRead(A0)==HIGH and digitalRead(A1)==HIGH){
+    //Move forward
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH); 
+  }
+
+  if(digitalRead(A0)==LOW and digitalRead(A1)==LOW){
+    //STOP
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+  }
+  
+  if(digitalRead(A0)==HIGH and digitalRead(A1)==LOW){
+    //LEFT TURN
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+  }
+
+  if(digitalRead(A0)==LOW and digitalRead(A1)==HIGH){
+    //RIGHT TURN
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
+  }
+  }
+}
+
+void myInput(){
+char a;
+a=Serial.read();
+if(a=='f'){
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
+    delay(2000);
+}
+else if(a=='a'){                       //anti clockwise
+    digitalWrite(5,HIGH);
+    digitalWrite(6,LOW);
+    digitalWrite(7,HIGH);
+    digitalWrite(8,LOW); 
+    delay(1000);
+}
+else if(a=='c'){                       //clockwise
+    digitalWrite(5,LOW);
+    digitalWrite(6,HIGH);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH); 
+    delay(1000);
+}
+else if(a=='s'){
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+    delay(1000);
+}
+else{
+    digitalWrite(5,LOW);
+    digitalWrite(6,LOW);
+    digitalWrite(7,LOW);
+    digitalWrite(8,LOW);
+    delay(1000);
+}
+
+}
+
+void receive(){
+    if(digitalRead(4)==HIGH){
+      int d=pulseIn(4,HIGH);
+      if(d>500 and d<1500){
+        //count++;
+        Serial.print(d);
+        Serial.println("GANTRY CLOSED");
+        //Serial.println(count);
+        //Stop
+        digitalWrite(5,LOW);
+        digitalWrite(6,LOW);
+        digitalWrite(7,LOW);
+        digitalWrite(8,LOW);
+        delay(1000);
+        //forward
+        digitalWrite(5,HIGH);
+        digitalWrite(6,LOW);
+        digitalWrite(7,LOW);
+        digitalWrite(8,HIGH);
+        delay(1000);
+      }
+    }
+  
+}
+-------------------------------------------
